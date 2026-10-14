@@ -1,0 +1,162 @@
+body{
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    margin: 0;
+    background: #e0f2fe;
+}
+
+#water{
+    display: none;
+}
+
+.scene{
+    position: relative;
+    width: 320px;
+    height: 420px;
+}
+
+.scene > * {
+    position: absolute;
+}
+
+.pot{
+    bottom: 0;
+    left: 90px;
+    width: 140px;
+    height: 110px;
+    clip-path: polygon(0 0, 100% 0, 85% 100%, 15% 100%);
+    background: linear-gradient(#422006 0 14px, #c2410c 0);
+}
+
+.can{
+    top: 10px;
+    left: -10px;
+    width: 90px;
+    height: 60px;
+    border-radius: 12px;
+    background: #5a0057;
+    cursor: pointer;
+    transition: rotate .4s;
+}
+
+.can::before{
+    content: '';
+    position: absolute;
+    top: 8px;
+    right: -44px;
+    width: 54px;
+    height: 10px;
+    background: #5a0057;
+    rotate: -25deg;
+}
+
+.drops{
+    top: 60px;
+    left: 132px;
+}
+
+.drops i{
+    position: absolute;
+    width: 11px;
+    height: 18px;
+    border-radius: 50%;
+    background: #38bdf8;
+    opacity: 0;
+}
+
+.drops i:nth-child(2){
+    left: 14px;
+    --d: .27s;
+}
+
+.drops i:nth-child(3){
+    left: -12px;
+    --d: .54s;
+}
+
+.stem{
+    bottom: 106px;
+    left: 157px;
+    width: 6px;
+    height: 0;
+    background: #16a34a;
+    transition: height 2s 1s ease-out;
+}
+
+.leaf{
+    width: 50px;
+    height: 26px;
+    border-radius: 50px 0;
+    background: #22c55e;
+    scale: 0;
+    transition: scale .6s;
+}
+
+.leaf.l{
+    bottom: 160px;
+    left: 108px;
+    transform-origin: right;
+    transition-delay: 1.8s;
+}
+
+.leaf.r{
+    bottom: 200px;
+    left: 162px;
+    transform-origin: left;
+    border-radius: 0 50px;
+    transition-delay: 2.3s;
+}
+
+.flower{
+    bottom: 272px;
+    left: 145px;
+    width: 30px;
+    height: 30px;
+    scale: 0;
+    transition: scale 1s 2.9s 
+                cubic-bezier(.3, 1.6, .5, 1);
+}
+
+/* 8 petals = 1 circle + 8 shadows */
+.flower::before,
+.flower::after{
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+}
+
+.flower::before{
+    box-shadow: 24px 0 #f472b6, -24px 0 #f472b6,
+                0 24px #f472b6, 0 -24px #f472b6,
+                17px 17px #ec4899, -17px 17px #ec4899,
+                17px -17px #ec4899, -17px -17px #ec4899;
+}
+
+.flower::after{
+    background: #facc15;
+}
+
+/* one click, everything is staggered */
+#water:checked + .scene .can{
+    rotate: 30deg;
+}
+
+#water:checked + .scene .drops i{
+    animation: fall .8s var(--d, 0s) ease-in 4;
+}
+
+@keyframes fall{
+    from{ opacity: 1;}
+    to{ opacity: 0; translate: 0 240px;}
+}
+
+#water:checked + .scene .stem{
+    height: 180px;
+}
+
+#water:checked + .scene .leaf,
+#water:checked + .scene .flower{
+    scale: 1;
+}
